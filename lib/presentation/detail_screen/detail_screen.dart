@@ -58,7 +58,7 @@ class DetailScreen extends StatelessWidget {
         },
       ),
       title: AppbarTitle(
-        text: song.songTitle ?? '',
+        text: song.songTitle,
         margin: EdgeInsets.only(left: 12.h),
       ),
       actions: [
@@ -102,11 +102,11 @@ class DetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    song.songTitle ?? '',
+                    song.songTitle,
                     style: theme.textTheme.headlineSmall,
                   ),
                   Text(
-                    song.artistName ?? '',
+                    song.artistName,
                     style: theme.textTheme.bodyMedium,
                   )
                 ],

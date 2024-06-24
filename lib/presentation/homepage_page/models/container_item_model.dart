@@ -17,9 +17,9 @@ class ContainerItemModel {
   // Factory constructor to create ContainerItemModel from a map
   factory ContainerItemModel.fromJson(Map<String, dynamic> json) {
     return ContainerItemModel(
-      jamesAdamOne: json['jamesAdamOne'],
-      jamesadam: json['jamesadam'],
-      id: json['id'],
+      jamesAdamOne: json['jamesAdamOne'] ?? ImageConstant.imgPhoto,
+      jamesadam: json['jamesadam'] ?? "James adam",
+      id: json['id'] ?? "",
     );
   }
 
@@ -30,5 +30,10 @@ class ContainerItemModel {
     data['jamesadam'] = this.jamesadam;
     data['id'] = this.id;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ContainerItemModel{jamesAdamOne: $jamesAdamOne, jamesadam: $jamesadam, id: $id}';
   }
 }
