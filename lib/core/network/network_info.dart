@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:slicing/main.dart';
 
 // For checking internet connectivity
@@ -37,15 +37,24 @@ class NetworkInfo implements NetworkInfoI {
   }
 
   // to check type of internet connectivity
-  @override
-  Future<ConnectivityResult> get connectivityResult async {
+  Future<List<ConnectivityResult>> get connectivityResultonConnectivity async {
     return connectivity.checkConnectivity();
   }
 
   //check the type on internet connection on changed of internet connection
+  Stream<List<ConnectivityResult>>
+      get connectivityResultonConnectivityChanged =>
+          connectivity.onConnectivityChanged;
+
   @override
+  // TODO: implement onConnectivityChanged
   Stream<ConnectivityResult> get onConnectivityChanged =>
-      connectivity.onConnectivityChanged;
+      throw UnimplementedError();
+
+  @override
+  // TODO: implement connectivityResult
+  Future<ConnectivityResult> get connectivityResult =>
+      throw UnimplementedError();
 }
 
 abstract class Failure {}
