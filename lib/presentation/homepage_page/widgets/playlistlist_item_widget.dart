@@ -26,7 +26,7 @@ class PlaylistlistItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomImageView(
-            imagePath: playlistlistItemModelObj.playlistImage,
+            imagePath: playlistlistItemModelObj.playlistImage!,
             height: 100.v,
             width: 192.h,
             radius: BorderRadius.circular(
@@ -37,7 +37,7 @@ class PlaylistlistItemWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              playlistlistItemModelObj.playlistTitle,
+              playlistlistItemModelObj.playlistTitle!,
               style: theme.textTheme.titleSmall,
             ),
           ),
@@ -46,7 +46,7 @@ class PlaylistlistItemWidget extends StatelessWidget {
             width: 130.h,
             margin: EdgeInsets.only(left: 4.h),
             child: Text(
-              playlistlistItemModelObj.playlistArtists,
+              playlistlistItemModelObj.playlistArtists!,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall!.copyWith(

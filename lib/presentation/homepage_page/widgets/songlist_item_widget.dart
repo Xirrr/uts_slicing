@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../models/songlist_item_model.dart';
 
+// ignore_for_file: must_be_immutable
 class SonglistItemWidget extends StatelessWidget {
-  final SonglistItemModel songlistItemModelObj;
-  final VoidCallback onTap;
-
   SonglistItemWidget(this.songlistItemModelObj, {Key? key, required this.onTap})
       : super(key: key);
+
+  final SonglistItemModel songlistItemModelObj;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class SonglistItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomImageView(
-              imagePath: songlistItemModelObj.songImage,
+              imagePath: songlistItemModelObj.songImage!,
               height: 100.v,
               width: 152.h,
               radius: BorderRadius.circular(
@@ -37,16 +38,16 @@ class SonglistItemWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                songlistItemModelObj.songTitle,
-                style: Theme.of(context).textTheme.subtitle1,
+                songlistItemModelObj.songTitle!,
+                style: theme.textTheme.titleSmall,
               ),
             ),
             SizedBox(height: 3.v),
             Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                songlistItemModelObj.artistName,
-                style: Theme.of(context).textTheme.bodyText2,
+                songlistItemModelObj.artistName!,
+                style: theme.textTheme.bodySmall,
               ),
             )
           ],
