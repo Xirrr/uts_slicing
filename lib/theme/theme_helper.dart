@@ -129,4 +129,6 @@ class LightCodeColors {
   Color get gray90014 => Color(0X14031425);
 // White
   Color get whiteA700 => Color(0XFFFFFFFF);
+
+  get whiteA => null;
 }

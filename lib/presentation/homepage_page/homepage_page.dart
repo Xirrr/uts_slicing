@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:slicing/presentation/detail_screen/detail_screen.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/appbar_trailing_image.dart';
@@ -9,13 +11,10 @@ import 'models/songlist_item_model.dart';
 import 'notifier/homepage_notifier.dart';
 import 'widgets/container_item_widget.dart';
 import 'widgets/playlistlist_item_widget.dart';
-import 'widgets/songlist_item_widget.dart'; // ignore_for_file: must_be_immutable
+import 'widgets/songlist_item_widget.dart';
 
 class HomepagePage extends ConsumerStatefulWidget {
-  const HomepagePage({Key? key})
-      : super(
-          key: key,
-        );
+  const HomepagePage({Key? key}) : super(key: key);
 
   @override
   HomepagePageState createState() => HomepagePageState();
@@ -57,7 +56,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                   ),
                 ),
                 SizedBox(height: 8.v),
-                _buildSongList(context),
+                _buildSongList(context), // Update this to handle item clicks
                 SizedBox(height: 20.v),
                 _buildSpacerColumn(context)
               ],
@@ -68,7 +67,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
     );
   }
 
-  /// Section Widget
+  // Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       title: AppbarTitle(
@@ -91,13 +90,13 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
             top: 21.v,
             right: 37.h,
           ),
-        )
+        ),
       ],
       styleType: Style.bgFill,
     );
   }
 
-  /// Section Widget
+  // Section Widget
   Widget _buildPlaylistList(BuildContext context) {
     return SizedBox(
       height: 180.v,
@@ -123,9 +122,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                       .homepageModelObj
                       ?.playlistlistItemList[index] ??
                   PlaylistlistItemModel();
-              return PlaylistlistItemWidget(
-                model,
-              );
+              return PlaylistlistItemWidget(model);
             },
           );
         },
@@ -133,7 +130,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
     );
   }
 
-  /// Section Widget
+  // Section Widget
   Widget _buildColumnpopularsi(BuildContext context) {
     return Column(
       children: [
@@ -173,19 +170,22 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                             ?.containerItemList[index] ??
                         ContainerItemModel();
                     return ContainerItemWidget(
-                      model,
+                      containerItemModelObj: model,
+                      onNavigateBack: () {
+                        Navigator.pop(context); // Navigate back to homepage
+                      },
                     );
                   },
                 );
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
-  /// Section Widget
+  // Section Widget
   Widget _buildSongList(BuildContext context) {
     return SizedBox(
       height: 163.v,
@@ -213,6 +213,14 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                   SonglistItemModel();
               return SonglistItemWidget(
                 model,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailScreen(song: model),
+                    ),
+                  );
+                },
               );
             },
           );
@@ -221,7 +229,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
     );
   }
 
-  /// Section Widget
+  // Section Widget
   Widget _buildSpacerColumn(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -273,10 +281,10 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                               Text(
                                 "lbl_james_adam".tr,
                                 style: theme.textTheme.bodySmall,
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -296,7 +304,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                       top: 12.v,
                       bottom: 12.v,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -335,17 +343,17 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
                       "lbl_1_40".tr,
                       style: CustomTextStyles.bodySmallGray50001,
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  /// Common widget
+  // Common widget
   Widget _buildPopularSingerList(
     BuildContext context, {
     required String singerName,
@@ -372,7 +380,7 @@ class HomepagePageState extends ConsumerState<HomepagePage> {
               color: appTheme.blueGray500,
             ),
           ),
-        )
+        ),
       ],
     );
   }

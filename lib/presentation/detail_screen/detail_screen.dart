@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:slicing/presentation/homepage_page/models/songlist_item_model.dart';
+
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_title.dart';
@@ -7,17 +9,11 @@ import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_icon_button.dart';
 
-class DetailScreen extends ConsumerStatefulWidget {
-  const DetailScreen({Key? key})
-      : super(
-          key: key,
-        );
+class DetailScreen extends StatelessWidget {
+  final SonglistItemModel song;
 
-  @override
-  DetailScreenState createState() => DetailScreenState();
-}
+  const DetailScreen({Key? key, required this.song}) : super(key: key);
 
-class DetailScreenState extends ConsumerState<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,7 +42,6 @@ class DetailScreenState extends ConsumerState<DetailScreen> {
     );
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       leadingWidth: 40.h,
@@ -58,11 +53,12 @@ class DetailScreenState extends ConsumerState<DetailScreen> {
           bottom: 17.v,
         ),
         onTap: () {
-          onTapArrowleftone(context);
+          Navigator.pop(
+              context); // Navigates back to the previous screen (HomepagePage)
         },
       ),
       title: AppbarTitle(
-        text: "lbl_indonesian_pops".tr,
+        text: song.songTitle ?? '',
         margin: EdgeInsets.only(left: 12.h),
       ),
       actions: [
@@ -87,7 +83,6 @@ class DetailScreenState extends ConsumerState<DetailScreen> {
     );
   }
 
-  /// Section Widget
   Widget _buildColumnSpacer(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -107,11 +102,11 @@ class DetailScreenState extends ConsumerState<DetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "msg_hidup_seperti_ini".tr,
+                    song.songTitle ?? '',
                     style: theme.textTheme.headlineSmall,
                   ),
                   Text(
-                    "lbl_james_adam".tr,
+                    song.artistName ?? '',
                     style: theme.textTheme.bodyMedium,
                   )
                 ],
@@ -239,10 +234,5 @@ class DetailScreenState extends ConsumerState<DetailScreen> {
         ],
       ),
     );
-  }
-
-  /// Navigates back to the previous screen.
-  onTapArrowleftone(BuildContext context) {
-    NavigatorService.goBack();
   }
 }

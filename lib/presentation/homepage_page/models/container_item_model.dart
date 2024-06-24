@@ -1,18 +1,34 @@
 import '../../../core/app_export.dart';
 
-/// This class is used in the [container_item_widget] screen.
-// ignore_for_file: must_be_immutable
-
+/// This class represents data used in the ContainerItemWidget screen.
 class ContainerItemModel {
-  ContainerItemModel({this.jamesAdamOne, this.jamesadam, this.id}) {
-    jamesAdamOne = jamesAdamOne ?? ImageConstant.imgPhoto;
-    jamesadam = jamesadam ?? "James adam";
-    id = id ?? "";
+  String jamesAdamOne;
+  String jamesadam;
+  String id;
+
+  ContainerItemModel({
+    String? jamesAdamOne,
+    String? jamesadam,
+    String? id,
+  })  : this.jamesAdamOne = jamesAdamOne ?? ImageConstant.imgPhoto,
+        this.jamesadam = jamesadam ?? "James adam",
+        this.id = id ?? "";
+
+  // Factory constructor to create ContainerItemModel from a map
+  factory ContainerItemModel.fromJson(Map<String, dynamic> json) {
+    return ContainerItemModel(
+      jamesAdamOne: json['jamesAdamOne'],
+      jamesadam: json['jamesadam'],
+      id: json['id'],
+    );
   }
 
-  String? jamesAdamOne;
-
-  String? jamesadam;
-
-  String? id;
+  // Method to convert ContainerItemModel to a map
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['jamesAdamOne'] = this.jamesAdamOne;
+    data['jamesadam'] = this.jamesadam;
+    data['id'] = this.id;
+    return data;
+  }
 }

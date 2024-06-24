@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slicing/presentation/homepage_page/models/songlist_item_model.dart';
 
 import '../presentation/app_navigation_screen/app_navigation_screen.dart';
 import '../presentation/detail_screen/detail_screen.dart';
@@ -21,8 +22,10 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     homepageContainerScreen: (context) => HomepageContainerScreen(),
     homepageOneScreen: (context) => HomepageOneScreen(),
-    detailScreen: (context) => DetailScreen(),
+    detailScreen: (context) => DetailScreen(
+          song: ModalRoute.of(context)!.settings.arguments as SonglistItemModel,
+        ),
     appNavigationScreen: (context) => AppNavigationScreen(),
-    initialRoute: (context) => HomepageContainerScreen()
+    initialRoute: (context) => HomepageContainerScreen(),
   };
 }
