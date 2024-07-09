@@ -20,43 +20,26 @@ class NetworkInfo implements NetworkInfoI {
     return _networkInfo;
   }
 
-  NetworkInfo._internal(this.connectivity) {
-    connectivity = this.connectivity;
-  }
+  NetworkInfo._internal(this.connectivity);
 
-  ///checks internet is connected or not
-  ///returns [true] if internet is connected
-  ///else it will return [false]
   @override
   Future<bool> isConnected() async {
     final result = await connectivity.checkConnectivity();
-    if (result != ConnectivityResult.none) {
-      return true;
-    }
-    return false;
+    return result != ConnectivityResult.none;
   }
 
-  // to check type of internet connectivity
-  Future<List<ConnectivityResult>> get connectivityResultonConnectivity async {
-    return connectivity.checkConnectivity();
+  @override
+  Future<ConnectivityResult> get connectivityResult async {
+    return await connectivity.checkConnectivity();
   }
 
-  //check the type on internet connection on changed of internet connection
-  Stream<List<ConnectivityResult>>
-      get connectivityResultonConnectivityChanged =>
-          connectivity.onConnectivityChanged;
-
   @override
-  // TODO: implement onConnectivityChanged
-  Stream<ConnectivityResult> get onConnectivityChanged =>
-      throw UnimplementedError();
-
-  @override
-  // TODO: implement connectivityResult
-  Future<ConnectivityResult> get connectivityResult =>
-      throw UnimplementedError();
+  Stream<ConnectivityResult> get onConnectivityChanged {
+    return connectivity.onConnectivityChanged;
+  }
 }
 
+// Exceptions and Failures
 abstract class Failure {}
 
 // General failures
@@ -72,16 +55,16 @@ class CacheException implements Exception {}
 
 class NetworkException implements Exception {}
 
-///can be used for throwing [NoInternetException]
+/// Exception for no internet connection
 class NoInternetException implements Exception {
   late String _message;
 
   NoInternetException([String message = 'NoInternetException Occurred']) {
+    _message = message;
     if (globalMessengerKey.currentState != null) {
       globalMessengerKey.currentState!
           .showSnackBar(SnackBar(content: Text(message)));
     }
-    this._message = message;
   }
 
   @override

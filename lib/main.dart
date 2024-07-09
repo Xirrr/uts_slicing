@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 import 'services/music_model.dart';
 
+final GlobalKey<ScaffoldMessengerState> globalMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() {
   runApp(MyApp());
 }
@@ -14,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      scaffoldMessengerKey: globalMessengerKey,
       home: MusicDetailPage(),
     );
   }
@@ -55,6 +59,10 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
         errorMessage = e.toString();
         isLoading = false;
       });
+      if (globalMessengerKey.currentState != null) {
+        globalMessengerKey.currentState!.showSnackBar(
+            SnackBar(content: Text('Gagal memuat detail musik: $e')));
+      }
     }
   }
 
