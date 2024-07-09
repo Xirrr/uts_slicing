@@ -1,51 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'services/api_service.dart';
+import 'services/music_model.dart';
 
-import 'core/app_export.dart';
-
-var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  Future.wait([
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
-    PrefUtils().init()
-  ]).then((value) {
-    runApp(ProviderScope(child: MyApp()));
-  });
+  runApp(MyApp());
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    // ignore: unused_local_variable
-    final themeType = ref.watch(themeNotifier).themeType;
-    return Sizer(
-      builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          theme: theme,
-          title: 'slicing',
-          navigatorKey: NavigatorService.navigatorKey,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            AppLocalizationDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
-          ],
-          supportedLocales: [
-            Locale(
-              'en',
-              '',
-            )
-          ],
-          initialRoute: AppRoutes.initialRoute,
-          routes: AppRoutes.routes,
-        );
-      },
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Music Details App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MusicDetailPage(),
+    );
+  }
+}
+
+class MusicDetailPage extends StatefulWidget {
+  @override
+  _MusicDetailPageState createState() => _MusicDetailPageState();
+}
+
+class _MusicDetailPageState extends State<MusicDetailPage> {
+  late ApiService apiService;
+  MusicDetail? musicDetail;
+  bool isLoading = false;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    apiService = ApiService(
+        baseUrl: 'https://api.example.com'); // Ganti dengan URL dasar Anda
+    fetchMusicDetail('1'); // ID musik sebagai contoh
+  }
+
+  Future<void> fetchMusicDetail(String id) async {
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
+
+    try {
+      MusicDetail? detail = await apiService.fetchMusicDetail(id);
+      setState(() {
+        musicDetail = detail;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail Musik'),
+      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : musicDetail != null
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Judul: ${musicDetail!.title}',
+                          style: TextStyle(fontSize: 20)),
+                      Text('Artis: ${musicDetail!.artist}',
+                          style: TextStyle(fontSize: 20)),
+                      Text('Album: ${musicDetail!.album}',
+                          style: TextStyle(fontSize: 20)),
+                      Text('Genre: ${musicDetail!.genre}',
+                          style: TextStyle(fontSize: 20)),
+                      Text('Tahun: ${musicDetail!.year}',
+                          style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                )
+              : Center(child: Text('Gagal memuat detail musik: $errorMessage')),
     );
   }
 }
