@@ -1,8 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:slicing/main.dart';
+import '../../main.dart';
 
-// For checking internet connectivity
+// Untuk memeriksa konektivitas internet
 abstract class NetworkInfoI {
   Future<bool> isConnected();
 
@@ -29,14 +29,14 @@ class NetworkInfo implements NetworkInfoI {
   }
 
   @override
-  Future<ConnectivityResult> get connectivityResult async {
-    return await connectivity.checkConnectivity();
-  }
+  // TODO: implement connectivityResult
+  Future<ConnectivityResult> get connectivityResult =>
+      throw UnimplementedError();
 
   @override
-  Stream<ConnectivityResult> get onConnectivityChanged {
-    return connectivity.onConnectivityChanged;
-  }
+  // TODO: implement onConnectivityChanged
+  Stream<ConnectivityResult> get onConnectivityChanged =>
+      throw UnimplementedError();
 }
 
 // Exceptions and Failures
@@ -55,7 +55,7 @@ class CacheException implements Exception {}
 
 class NetworkException implements Exception {}
 
-/// Exception for no internet connection
+/// Exception untuk koneksi internet yang tidak ada
 class NoInternetException implements Exception {
   late String _message;
 
